@@ -336,7 +336,10 @@ class RandomForestRegressor:
         n_samples = X.shape[0]
         # 有放回抽样，生成与原样本量相同的数据集
         idxs = np.random.choice(n_samples, n_samples, replace=True)
-        return X[idxs], y[idxs]
+         if isinstance(X, pd.DataFrame):
+            return X.iloc[idxs], y.iloc[idxs]
+        else:
+             return X[idxs], y[idxs]
 
     def predict(self, X):
         # 如果输入是DataFrame，转换为NumPy数组
@@ -421,3 +424,4 @@ if __name__ == "__main__":
     print("RMSE:", rmse)
     # 保存模型
     save_model(best_model, 'rf_model.pkl')
+
